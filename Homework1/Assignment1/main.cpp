@@ -4,6 +4,9 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 
+#define X_AXIS 0
+#define Y_AXIS 0
+#define Z_AXIS -1
 
 constexpr double MY_PI = 3.1415926;
 
@@ -26,8 +29,10 @@ Eigen::Matrix4f get_model_matrix(float rotation_angle) {
     // Create the model matrix for rotating the triangle around the Z axis.
     // Then return it.
 
-    model << cos(rotation_angle), -sin(rotation_angle), 0, 0,
-            sin(rotation_angle), cos(rotation_angle), 0, 0,
+    float cosV = cos(rotation_angle), sinV = sin(rotation_angle);
+
+    model << cosV, -sinV, 0, 0,
+            sinV, cosV, 0, 0,
             0, 0, 1, 0,
             0, 0, 0, 1;
 
@@ -114,7 +119,7 @@ int main(int argc, const char **argv) {
                                      {-2, 0, -2}};
 
     std::vector<Eigen::Vector3i> ind{{0, 1, 2}};
-    Eigen::Vector3f axis({0, 0, -1});
+    Eigen::Vector3f axis({X_AXIS, Y_AXIS, Z_AXIS});
 
     auto pos_id = r.load_positions(pos);
     auto ind_id = r.load_indices(ind);
