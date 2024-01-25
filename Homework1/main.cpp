@@ -4,8 +4,8 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 
-#define X_AXIS 3
-#define Y_AXIS 1
+#define X_AXIS 0
+#define Y_AXIS 0
 #define Z_AXIS -1
 
 constexpr double MY_PI = 3.1415926;
@@ -61,10 +61,10 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio,
             0, 0, 1, 0;
 
     float l, r, b, t;
-    t = zNear * static_cast<float>(tan(eye_fov / 180 * MY_PI)) * 0.5;
+    t = -abs(zNear) * static_cast<float>(tan(eye_fov * 0.5 / 180 * MY_PI));
     b = -t;
-    l = aspect_ratio * t;
-    r = -l;
+    r = aspect_ratio * t;
+    l = -r;
 
     Eigen::Matrix4f orth;
     orth << 2 / (r - l), 0, 0, -(r + l) / (r - l),
